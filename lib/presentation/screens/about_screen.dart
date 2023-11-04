@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/screens/program_screen.dart';
 import 'package:quiz_app/presentation/screens/user_info_screen.dart';
 import '../component/bottom_sheet.dart';
@@ -12,29 +13,9 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 87, 123, 193),
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromARGB(255, 87, 123, 193),
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'QUIZ',
-              style:
-                  GoogleFonts.acme(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'UP',
-              style: GoogleFonts.aboreto(fontSize: 30),
-            ),
-          ],
-        ),
-      ),
+      appBar:const CustomAppBar(backgroundColor: Color.fromARGB(255, 87, 123, 193)),
       body: Stack(
         children: [
-          // Positioned.fill(child: Lottie.asset('assets/lamp.json')),
           Positioned(
             top: 110,
             left: 16,
@@ -69,7 +50,7 @@ class AboutScreen extends StatelessWidget {
         },
         onPressRight: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const UserInfoScreen()));
+              MaterialPageRoute(builder: (context) => UserInfoScreen()));
         },
         currentIndex: 2,
       ),

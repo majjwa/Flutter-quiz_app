@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/component/bottom_sheet.dart';
-import 'package:quiz_app/presentation/screens/about_screen.dart';
 import 'package:quiz_app/presentation/screens/program_screen.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -12,29 +12,12 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255,237, 123, 123),
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255,237, 123, 123),
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'QUIZ',
-              style:
-              GoogleFonts.acme(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'UP',
-              style: GoogleFonts.aboreto(fontSize: 30),
-            ),
-          ],
-        ),
-      ),
+      appBar:CustomAppBar(backgroundColor:const Color.fromARGB(255,237, 123, 123)),
       body: Stack(
         children: [
           Positioned.fill(child:Lottie.asset('assets/study.json')),
           Positioned(
+
               top: 90,
               left: 20,
               child: Text(
