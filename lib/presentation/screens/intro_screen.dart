@@ -12,7 +12,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255,237, 123, 123),
-      appBar:CustomAppBar(backgroundColor:const Color.fromARGB(255,237, 123, 123)),
+      appBar:const CustomAppBar(backgroundColor:Color.fromARGB(255,237, 123, 123)),
       body: Stack(
         children: [
           Positioned.fill(child:Lottie.asset('assets/study.json')),

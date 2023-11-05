@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/screens/quiz_screen.dart';
-import '../controller/user_data_bloc.dart';
+import '../controller/user_data_cubit.dart';
 
 class UserInfoScreen extends StatelessWidget {
   UserInfoScreen({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class UserInfoScreen extends StatelessWidget {
               SystemNavigator.pop();
               return false; // Prevent default back behavior
             },
-            child: QuizScreen(userDataCubit: context.read<UserDataCubit>()),
+            child: QuizScreen(),
           ),
         ),
       );
