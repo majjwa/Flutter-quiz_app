@@ -8,6 +8,7 @@ class QuizRepo extends BaseQuizRepo {
   @override
   Future<List<Quiz>> getQuiz() async {
     final result = await baseQuizRemoteDataSource.getQuiz();
+
     return result;
   }
 }

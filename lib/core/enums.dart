@@ -3,3 +3,8 @@ enum QuizState {
   Loaded,
   Error,
 }
+enum ResultState {
+  Loading,
+  Loaded,
+  Error,
+}

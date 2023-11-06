@@ -8,7 +8,7 @@ part 'question_state.dart';
 
 class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   final GetQuizUseCase getQuizUseCase;
-  QuestionBloc(this.getQuizUseCase) : super(const QuestionState(selectedAnswers: {})) {
+  QuestionBloc(this.getQuizUseCase) : super(const QuestionState()) {
     on<GetQuestionEvent>(_getQuiz);
   }
   Future<void> _getQuiz(
@@ -18,12 +18,9 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
        quiz: result,
        state: QuizState.Loaded,
      ));
-     print(result);
+
   }
-  void updateSelectedAnswer(int questionId, int selectedOption) {
-    final newSelectedAnswers = {...state.selectedAnswers};
-    newSelectedAnswers[questionId] = selectedOption;
-    emit(state.copyWith(selectedAnswers: newSelectedAnswers));
-  }
+
+
 }
 

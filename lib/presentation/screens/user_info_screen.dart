@@ -45,7 +45,7 @@ class UserInfoScreen extends StatelessWidget {
               SystemNavigator.pop();
               return false; // Prevent default back behavior
             },
-            child: QuizScreen(),
+            child: const QuizScreen(),
           ),
         ),
       );
