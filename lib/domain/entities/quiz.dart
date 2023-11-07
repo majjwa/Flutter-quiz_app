@@ -5,7 +5,7 @@ class Quiz extends Equatable {
   final int id;
   final String question;
   final Answers answers;
-  final String correctAnswer;
+  final String? correctAnswer;
 
   const Quiz(
       {required this.id,

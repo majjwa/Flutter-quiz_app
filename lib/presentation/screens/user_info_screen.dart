@@ -11,46 +11,8 @@ class UserInfoScreen extends StatelessWidget {
   UserInfoScreen({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _nameController = TextEditingController();
-
-  void _submitForm(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      final userName = _nameController.text;
-      context.read<UserDataCubit>().setUserName(userName);
-      _playLottieAnimation(context);
-    }
-  }
-
-  void _playLottieAnimation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Lottie.asset('assets/rocket.json'),
-        );
-      },
-    );
-
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pop();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WillPopScope(
-            onWillPop: () async {
-              // close the app
-              SystemNavigator.pop();
-              return false; // Prevent default back behavior
-            },
-            child: const QuizScreen(),
-          ),
-        ),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +50,14 @@ class UserInfoScreen extends StatelessWidget {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty ) {
                         return 'Please enter an email';
                       }
                       return null;
                     },
                   ),
                 ),
-                const SizedBox(height: 7),
+                const SizedBox(height: 4),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.10,
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -149,5 +111,41 @@ class UserInfoScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _submitForm(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      final userName = _nameController.text;
+      context.read<UserDataCubit>().setUserName(userName);
+      _playLottieAnimation(context);
+    }
+  }
+
+  void _playLottieAnimation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Lottie.asset('assets/rocket.json'),
+        );
+      },
+    );
+
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WillPopScope(
+            onWillPop: () async {
+              // close the app
+              SystemNavigator.pop();
+              return false; // Prevent default back behavior
+            },
+            child: const QuizScreen(),
+          ),
+        ),
+      );
+    });
   }
 }

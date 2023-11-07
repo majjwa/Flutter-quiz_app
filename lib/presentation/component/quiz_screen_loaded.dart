@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/presentation/screens/result_screen.dart';
@@ -7,129 +6,139 @@ import '../../domain/entities/quiz.dart';
 import '../controller/question_bloc.dart';
 import '../controller/user_result_cubit.dart';
 import 'app_bar.dart';
+
 class QuizScreenLoaded extends StatelessWidget {
   const QuizScreenLoaded({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserResultCubit>(
-      create: (context) => UserResultCubit(),
-      child: BlocBuilder<QuestionBloc, QuestionState>(
-        buildWhen: (previous, current) => previous.state != current.state,
-        builder: (BuildContext context, state) {
-          return Scaffold(
-            backgroundColor: const Color.fromARGB(255, 87, 123, 193),
-            appBar: const CustomAppBar(
-              backgroundColor: Color.fromARGB(255, 87, 123, 193),
+
+    final questionBloc = BlocProvider.of<QuestionBloc>(context);
+    final userResultCubit = BlocProvider.of<UserResultCubit>(context);
+    bool isQuizCompleted() {
+      final userResultState = userResultCubit.state;
+      final totalQuestions = questionBloc.state.quiz.length;
+      final selectedAnswersCount = userResultState.selectedanswers.length;
+      return selectedAnswersCount == totalQuestions;
+    }
+
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 87, 123, 193),
+      appBar: const CustomAppBar(
+        backgroundColor: Color.fromARGB(255, 87, 123, 193),
+      ),
+      body: CustomScrollView(
+        key: const Key("quizKey"),
+        slivers: [
+          SliverToBoxAdapter(
+            key: const Key("sliver1"),
+            child: SizedBox(
+              width: 330,
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Total Mark: 100 | Time: 5min",
+                    style: GoogleFonts.abel(
+                      color: Colors.white,
+                      fontSize: 19,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            body: CustomScrollView(
-              key: const Key("quizKey"),
-              slivers: [
-                SliverToBoxAdapter(
-                  key: const Key("sliver1"),
-                  child: SizedBox(
-                    width: 330,
-                    height: 40,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final quiz = questionBloc.state.quiz[index];
+                return Padding(
+                  padding: const EdgeInsets.only(left: 9, right: 9),
+                  child: Card(
+                    elevation: 4,
+                    shadowColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Column(
                       children: [
-                        Text(
-                          "Total Mark: 100 | Time: 5min",
-                          style: GoogleFonts.abel(
-                            color: Colors.white,
-                            fontSize: 19,
-                          ),
+                        const Padding(padding: EdgeInsets.only(top: 18)),
+                        Row(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(left: 10, right: 3)),
+                            Expanded(
+                              child: Text(
+                                'Q. ${quiz.question}',
+                                style: GoogleFonts.abel(
+                                    color:
+                                        const Color.fromARGB(255, 97, 103, 122),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
+                        RadioGroup(quiz: quiz),
                       ],
                     ),
                   ),
-                ),
-
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                      final quiz = state.quiz[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 9, right: 9),
-                        child: Card(
-                          elevation: 4,
-                          shadowColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Column(
-                            children: [
-                              const Padding(padding: EdgeInsets.only(top: 18)),
-                              Row(
-                                children: [
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 3)),
-                                  Expanded(
-                                    child: Text(
-                                      'Q. ${quiz.question}',
-                                      style: GoogleFonts.abel(
-                                          color: const Color.fromARGB(
-                                              255, 97, 103, 122),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              RadioGroup(quiz: quiz),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    childCount: state.quiz.length,
-                  ),
-                ),
-
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(childCount: 1, (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, bottom: 10, left: 80, right: 80),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => WillPopScope(
-                                  onWillPop: () async {
-                                    // close the app
-                                    SystemNavigator.pop();
-                                    return false; // Prevent default back behavior
-                                  },
-                                  child: ResultScreen(),
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Submit",
-                            style: GoogleFonts.actor(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: const Color.fromARGB(255, 87, 123, 193),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-              ],
+                );
+              },
+              childCount: questionBloc.state.quiz.length,
             ),
-          );
-        },
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 10, left: 80, right: 80),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        if (isQuizCompleted()) {
+                          final correctAnswer =
+                              questionBloc.state.correctAnswers;
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ResultScreen(correctAnswers: correctAnswer),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.white,
+                              content: Text(
+                                  'Please answer all questions before submitting.',
+                                style: GoogleFonts.acme(
+                                  fontSize: 18,
+                                color: const Color.fromARGB(255, 87, 123, 193),
+                              ),),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text("Submit",
+                        style: GoogleFonts.acme(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        color: const Color.fromARGB(255, 87, 123, 193),
+                      ),),
+                    ),
+                  ),
+                );
+              },
+              childCount: 1,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -141,10 +150,9 @@ class RadioGroup extends StatefulWidget {
   const RadioGroup({super.key, required this.quiz});
 
   @override
-  _RadioGroupState createState() => _RadioGroupState();
+  RadioGroupState createState() => RadioGroupState();
 }
-
-class _RadioGroupState extends State<RadioGroup> {
+class RadioGroupState extends State<RadioGroup> {
   int? selectedOption;
 
   @override
@@ -175,7 +183,6 @@ class _RadioGroupState extends State<RadioGroup> {
           selectedOption = value;
         });
         userResultCubit.updateSelectedAnswer(widget.quiz.id, selectedOption);
-
       },
       title: Text(
         answer,

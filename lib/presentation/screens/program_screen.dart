@@ -13,33 +13,41 @@ class ProgramScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 238, 147, 34),
-      appBar:CustomAppBar(backgroundColor:const Color.fromARGB(255, 238, 147, 34)),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 110,
-            left: 16,
-            child: Text(
-              "Program",
-              style: GoogleFonts.acme(
-                color: Colors.white,
-                fontSize: 45,
+      appBar: const CustomAppBar(
+          backgroundColor: Color.fromARGB(255, 238, 147, 34)),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: 600,
+          child: Stack(
+            children: [
+              Positioned.fill(top: 230, child: Lottie.asset('assets/man.json')),
+              Positioned(
+                top: 110,
+                left: 16,
+                child: Text(
+                  "Program",
+                  style: GoogleFonts.acme(
+                    color: Colors.white,
+                    fontSize: 45,
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 170,
+                left: 18,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 36,
+                  child: DefaultTextStyle(
+                    style: GoogleFonts.actor(
+                        color: Colors.white, fontSize: 16),
+                    child: const Text(
+                        'You have to answer all the 10 Questions & submit to get your score.'),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Positioned(
-              top: 170,
-              left: 18,
-              child: DefaultTextStyle(
-                  style: GoogleFonts.actor(color: Colors.white, fontSize: 15),
-                  child: const Column(
-                    children: [
-                      Text(
-                          'You have to answer all the 10 Questions & submit\n   to get your score.'),
-                    ],
-                  ))),
-          Positioned.fill(top: 230, child: Lottie.asset('assets/man.json')),
-        ],
+        ),
       ),
       bottomNavigationBar: CustomBottomSheet(
         onPressLeft: () {

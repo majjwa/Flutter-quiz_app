@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
 
-  const CustomAppBar({Key? key, required this.backgroundColor}) : super(key: key);
+  const CustomAppBar({Key? key, required this.backgroundColor})
+      : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

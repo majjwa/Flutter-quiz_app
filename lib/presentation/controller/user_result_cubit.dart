@@ -5,23 +5,16 @@ import '../../core/enums.dart';
 part 'user_result_state.dart';
 
 class UserResultCubit extends Cubit<UserResultState> {
-  UserResultCubit() : super(UserResultState());
+  UserResultCubit() : super(const UserResultState());
 
    Map<int, int?> selectedAnswers = {};
 
   // Method to update the selected answer for a specific question
-  Future<void> updateSelectedAnswer(int questionId, int? selectedOption) async{
-    selectedAnswers[questionId] = await selectedOption;
+  void updateSelectedAnswer(int questionId, int? selectedOption)  {
+    selectedAnswers[questionId] = selectedOption;
     emit(state.copyWith(
-      selectedanswers:selectedAnswers,
+      selectedanswers: selectedAnswers,
       state: ResultState.Loaded,
     ));
-
   }
-
-  //
-  // // Method to retrieve the selected answers
-  // Map<int, int?> getSelectedAnswers() {
-  //   return state.selectedanswers;
-  // }
 }
