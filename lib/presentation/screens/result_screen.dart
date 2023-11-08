@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -6,6 +7,7 @@ import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/controller/user_data_cubit.dart';
 import 'package:quiz_app/presentation/controller/user_result_cubit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:quiz_app/presentation/screens/quiz_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   final Map<int, String> correctAnswers;
@@ -28,7 +30,9 @@ class ResultScreen extends StatelessWidget {
     int totalScore = 0;
     selectedAnswers.forEach((questionId, selectedOption) {
       final correctAnswer = correctAnswers[questionId];
-      if (selectedOption != null && correctAnswer != null && correctAnswer.isNotEmpty) {
+      if (selectedOption != null &&
+          correctAnswer != null &&
+          correctAnswer.isNotEmpty) {
         final selectedAnswerKey = answerKeyMapping[selectedOption];
         if (selectedAnswerKey == correctAnswer) {
           totalScore++;
@@ -39,45 +43,90 @@ class ResultScreen extends StatelessWidget {
     final percentage = (totalScore * 10).toStringAsFixed(0);
     final double progress = totalScore / 10.0;
 
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 87, 123, 193),
-      appBar: const CustomAppBar(backgroundColor: Color.fromARGB(255, 87, 123, 193)),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Congratulations, $userName!"),
-              Text(
-                'Your Score: $percentage%',
-                style: GoogleFonts.abel(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+    // to prevent the user from going back in the app
+    return WillPopScope(
+      onWillPop: ()async{
+        SystemNavigator.pop();
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 87, 123, 193),
+        appBar: const CustomAppBar(
+            backgroundColor: Color.fromARGB(255, 87, 123, 193)),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: 650,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned.fill(
+                    child: Lottie.asset("assets/congrats.json", repeat: true)),
+                Positioned(
+
+                  top: 50,
+                  child: Column(
+                    children: [
+                      Text("Good jop, $userName !",
+                          style: GoogleFonts.abel(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-SizedBox(height: 100,),
-              Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Lottie.asset("assets/congrats.json", repeat: true),
-                  CircularPercentIndicator(
+                Positioned(
+                   top: 160,
+                  // left: 35,
+                  child: CircularPercentIndicator(
                     radius: 140.0,
                     lineWidth: 14.0,
                     percent: progress, // The value from 0.0 to 1.0
-                    animation: true, // Enable animation
-                    animationDuration: 1000, // Duration of the animation in milliseconds
-                    // center: Text(
-                    //   '$percentage%',
-                    //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    // ),
+                    animation: true,
+                    animationDuration:
+                    1000, // Duration of the animation in milliseconds
+                    center: Text(
+                      'Your Score: $percentage%',
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                     circularStrokeCap: CircularStrokeCap.round, // Rounded line ends
                     backgroundColor: Colors.white.withOpacity(0.3),
-                    progressColor: Colors.red, // Change color here
+                    progressColor: Colors.white,
                   ),
-                ],
-              ),
+                ),
+                Positioned(
+                  bottom: 30,
 
-            ],
+                  child: Container(
+                    width: 150,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const QuizScreen()));
+                      },
+                      child: Text(
+                        "Retake ",
+                        style: GoogleFonts.acme(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: const Color.fromARGB(255, 87, 123, 193),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/screens/about_screen.dart';
+import 'package:quiz_app/presentation/screens/user_info_screen.dart';
 import '../component/bottom_sheet.dart';
-import 'intro_screen.dart';
 
 class ProgramScreen extends StatelessWidget {
   const ProgramScreen({Key? key}) : super(key: key);
@@ -52,13 +52,13 @@ class ProgramScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomSheet(
         onPressLeft: () {
           Navigator.pop(context,
-              MaterialPageRoute(builder: (context) => const IntroScreen()));
+              MaterialPageRoute(builder: (context) => const AboutScreen()));
         },
         onPressRight: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AboutScreen()));
+              MaterialPageRoute(builder: (context) =>  UserInfoScreen()));
         },
-        currentIndex: 1,
+        currentIndex: 2,
       ),
     );
   }

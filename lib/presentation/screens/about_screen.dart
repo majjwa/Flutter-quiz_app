@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quiz_app/presentation/component/app_bar.dart';
+import 'package:quiz_app/presentation/screens/intro_screen.dart';
 import 'package:quiz_app/presentation/screens/program_screen.dart';
-import 'package:quiz_app/presentation/screens/user_info_screen.dart';
 import '../component/bottom_sheet.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -34,7 +34,7 @@ class AboutScreen extends StatelessWidget {
                   top: 170,
                   left: 18,
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 35,
+                    width: MediaQuery.of(context).size.width - 25,
                     child: DefaultTextStyle(
                         style: GoogleFonts.actor(color: Colors.white, fontSize: 16),
                         child: const Column(
@@ -54,13 +54,13 @@ class AboutScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomSheet(
         onPressLeft: () {
           Navigator.pop(context,
-              MaterialPageRoute(builder: (context) => const ProgramScreen()));
+              MaterialPageRoute(builder: (context) => const IntroScreen()));
         },
         onPressRight: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UserInfoScreen()));
+              MaterialPageRoute(builder: (context) => const ProgramScreen()));
         },
-        currentIndex: 2,
+        currentIndex: 1,
       ),
     );
   }

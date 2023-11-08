@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:quiz_app/core/app_constant.dart';
 import 'package:quiz_app/data/model/quiz_model.dart';
-
 import '../../../domain/entities/quiz.dart';
 
 abstract class BaseQuizRemoteDataSource {

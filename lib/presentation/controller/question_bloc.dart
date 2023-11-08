@@ -13,11 +13,12 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   }
   Future<void> _getQuiz(
       GetQuestionEvent event,Emitter<QuestionState>emit)async {
-     final result= await getQuizUseCase();
-     final Map<int, String> correctAnswers = {};
+      final result= await getQuizUseCase();
+      final Map<int, String> correctAnswers = {};
      result.forEach((quiz) {
        correctAnswers[quiz.id] = quiz.correctAnswer!;
      });
+
      emit(state.copyWith(
        quiz: result,
        state: QuizState.Loaded,

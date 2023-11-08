@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quiz_app/presentation/component/app_bar.dart';
 import 'package:quiz_app/presentation/component/bottom_sheet.dart';
-import 'package:quiz_app/presentation/screens/program_screen.dart';
+import 'about_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -56,7 +56,7 @@ class IntroScreen extends StatelessWidget {
         onPressLeft: () {},
         onPressRight: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ProgramScreen()));
+              MaterialPageRoute(builder: (context) => const AboutScreen()));
         },
         currentIndex: 0,
       ),

@@ -12,7 +12,6 @@ class QuizScreenLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final questionBloc = BlocProvider.of<QuestionBloc>(context);
     final userResultCubit = BlocProvider.of<UserResultCubit>(context);
     bool isQuizCompleted() {
@@ -112,25 +111,54 @@ class QuizScreenLoaded extends StatelessWidget {
                             ),
                           );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: Colors.white,
-                              content: Text(
-                                  'Please answer all questions before submitting.',
-                                style: GoogleFonts.acme(
-                                  fontSize: 18,
-                                color: const Color.fromARGB(255, 87, 123, 193),
-                              ),),
-                            ),
-                          );
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: ShapeBorder.lerp(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0)),
+                                    const CircleBorder(),
+                                    0.1,
+                                  ),
+                                  content: Text(
+                                    'Please answer all questions before submitting.',
+                                    style: GoogleFonts.acme(
+                                      fontSize: 20,
+                                      color: const Color.fromARGB(
+                                          255, 97, 103, 122),
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    Center(
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          'OK',
+                                          style: GoogleFonts.acme(
+                                            fontSize: 24,
+                                            color: const Color.fromARGB(
+                                                255, 97, 103, 122),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
                         }
                       },
-                      child: Text("Submit",
+                      child: Text(
+                        "Submit",
                         style: GoogleFonts.acme(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: const Color.fromARGB(255, 87, 123, 193),
-                      ),),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: const Color.fromARGB(255, 87, 123, 193),
+                        ),
+                      ),
                     ),
                   ),
                 );
@@ -152,6 +180,7 @@ class RadioGroup extends StatefulWidget {
   @override
   RadioGroupState createState() => RadioGroupState();
 }
+
 class RadioGroupState extends State<RadioGroup> {
   int? selectedOption;
 

@@ -31,7 +31,12 @@ class UserInfoScreen extends StatelessWidget {
                   "Create your profile to start",
                   style: GoogleFonts.abel(color: Colors.white, fontSize: 20),
                 ),
-                const SizedBox(height: 110),
+                SizedBox(
+                  height:200,
+                  width: 490,
+                  child: Lottie.asset("assets/avatar1.json"),
+                ),
+
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.10,
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -117,21 +122,6 @@ class UserInfoScreen extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       final userName = _nameController.text;
       context.read<UserDataCubit>().setUserName(userName);
-      _playLottieAnimation(context);
-    }
-  }
-
-  void _playLottieAnimation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Lottie.asset('assets/rocket.json'),
-        );
-      },
-    );
-
-    Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pop();
       Navigator.pushReplacement(
         context,
@@ -146,6 +136,8 @@ class UserInfoScreen extends StatelessWidget {
           ),
         ),
       );
-    });
+    }
   }
+
+
 }
